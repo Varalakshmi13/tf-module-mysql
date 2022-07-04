@@ -20,7 +20,7 @@ resource "aws_security_group" "allow_mysql" {
   }
 
   tags = {
-    Name = "roboshop-redis-${var.ENV}"
+    Name = "roboshop-mysql-${var.ENV}"
   }
 }
 
