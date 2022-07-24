@@ -12,8 +12,8 @@ resource "aws_security_group" "allow_mysql" {
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
+    from_port        = var.RDS_MYSQL_PORT
+    to_port          = var.RDS_MYSQL_PORT
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -26,10 +26,10 @@ resource "aws_security_group" "allow_mysql" {
 
 resource "aws_db_instance" "mysql" {
   identifier           = "roboshop-${var.ENV}"
-  allocated_storage    = 10
+  allocated_storage    = var.RDS_MYSQL_STORAGE
   engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
+  engine_version       = var.RDS_ENGINE_VERSION
+  instance_class       = var.RDS_INSTANCE_TYPE
   username             = "admin1"
   password             = "RoboShop1"
   parameter_group_name = aws_db_parameter_group.mysql.name
@@ -40,7 +40,7 @@ resource "aws_db_instance" "mysql" {
 
 resource "aws_db_parameter_group" "mysql" {
   name = "roboshop-${var.ENV}"
-  family = "mysql5.7"
+  family = "mysql${var.RDS_ENGINE_VERSION}"
 
 }
 
