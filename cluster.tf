@@ -5,15 +5,15 @@ resource "aws_security_group" "allow_mysql" {
 
   ingress {
     description      = "TLS from VPC"
-    from_port        = 3306
-    to_port          = 3306
+    from_port        = var.RDS_MYSQL_PORT
+    to_port          = var.RDS_MYSQL_PORT
     protocol         = "tcp"
     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.VPC_CIDR, var.WORKSTATION_IP]
   }
 
   egress {
-    from_port        = var.RDS_MYSQL_PORT
-    to_port          = var.RDS_MYSQL_PORT
+    from_port        = 0
+    to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
